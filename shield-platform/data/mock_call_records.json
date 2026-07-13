@@ -1,0 +1,230 @@
+[
+  {
+    "from": "+916126855092",
+    "to": "+916200604502",
+    "duration": 298,
+    "type": "call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+917868820204",
+    "duration": 163,
+    "type": "call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+919134126396",
+    "duration": 449,
+    "type": "call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+916826600539",
+    "duration": 344,
+    "type": "call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+916506448196",
+    "duration": 2775,
+    "type": "scam_call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+918966647391",
+    "duration": 1123,
+    "type": "scam_call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+918266944844",
+    "duration": 2904,
+    "type": "scam_call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+917856528252",
+    "duration": 2829,
+    "type": "scam_call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+918990566476",
+    "duration": 2684,
+    "type": "scam_call"
+  },
+  {
+    "from": "+916126855092",
+    "to": "+917849621470",
+    "duration": 322,
+    "type": "scam_call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+919134126396",
+    "duration": 227,
+    "type": "call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+917349817734",
+    "duration": 533,
+    "type": "call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+916702632297",
+    "duration": 448,
+    "type": "call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+916734036506",
+    "duration": 336,
+    "type": "call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+918719927151",
+    "duration": 161,
+    "type": "scam_call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+918209747451",
+    "duration": 3327,
+    "type": "scam_call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+918748245888",
+    "duration": 1322,
+    "type": "scam_call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+918969119330",
+    "duration": 1673,
+    "type": "scam_call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+917856528252",
+    "duration": 1126,
+    "type": "scam_call"
+  },
+  {
+    "from": "+918362950628",
+    "to": "+919675770529",
+    "duration": 301,
+    "type": "scam_call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+916200604502",
+    "duration": 277,
+    "type": "call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+917349817734",
+    "duration": 731,
+    "type": "call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+916702632297",
+    "duration": 571,
+    "type": "call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+919134126396",
+    "duration": 465,
+    "type": "call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+916506448196",
+    "duration": 2329,
+    "type": "scam_call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+919465341213",
+    "duration": 2237,
+    "type": "scam_call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+916507943839",
+    "duration": 1106,
+    "type": "scam_call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+917856528252",
+    "duration": 3089,
+    "type": "scam_call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+918209747451",
+    "duration": 2424,
+    "type": "scam_call"
+  },
+  {
+    "from": "+917249827706",
+    "to": "+918966647391",
+    "duration": 1784,
+    "type": "scam_call"
+  },
+  {
+    "from": "+916826600539",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 1932871,
+    "type": "transaction"
+  },
+  {
+    "from": "+916734036506",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 1273757,
+    "type": "transaction"
+  },
+  {
+    "from": "+919134126396",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 887603,
+    "type": "transaction"
+  },
+  {
+    "from": "+916200604502",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 809161,
+    "type": "transaction"
+  },
+  {
+    "from": "+917349817734",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 509948,
+    "type": "transaction"
+  },
+  {
+    "from": "+916702632297",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 340102,
+    "type": "transaction"
+  },
+  {
+    "from": "+917868820204",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 1118554,
+    "type": "transaction"
+  },
+  {
+    "from": "+919336696312",
+    "to": "OVERSEAS_ACC_UNKNOWN",
+    "amount": 1084977,
+    "type": "transaction"
+  }
+]
