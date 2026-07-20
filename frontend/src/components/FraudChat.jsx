@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 
-const API = 'http://localhost:8000'
+const API = 'https://digital-public-safety.onrender.com'
 
 const SUGGESTED = [
   'Someone called claiming to be from CBI and said my Aadhaar is linked to a crime',

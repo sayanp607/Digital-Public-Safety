@@ -16,7 +16,7 @@ export default function DeepfakeScanner() {
       formData.append('file', file)
 
       try {
-        const response = await axios.post('http://localhost:8000/api/scam/analyze-deepfake', formData, {
+        const response = await axios.post('https://digital-public-safety.onrender.com/api/scam/analyze-deepfake', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
         

@@ -19,7 +19,7 @@ export default function CitizenReport() {
     formData.append('audio', file)
 
     try {
-      await axios.post('http://localhost:8000/api/reports/submit', formData, {
+      await axios.post('https://digital-public-safety.onrender.com/api/reports/submit', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       setStatus('success')

@@ -11,7 +11,7 @@ export default function VoiceBiometrics() {
 
   useEffect(() => {
     // Fetch Database Records on load
-    axios.get('http://localhost:8000/api/reports/list')
+    axios.get('https://digital-public-safety.onrender.com/api/reports/list')
       .then(res => setDbList(res.data))
       .catch(err => console.error("Could not fetch DB:", err))
   }, [])
@@ -26,7 +26,7 @@ export default function VoiceBiometrics() {
     formData.append('report_id_2', report2)
 
     try {
-      const res = await axios.post('http://localhost:8000/api/reports/verify-db', formData, {
+      const res = await axios.post('https://digital-public-safety.onrender.com/api/reports/verify-db', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       setResult(res.data)

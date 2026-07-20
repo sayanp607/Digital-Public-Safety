@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import * as d3 from 'd3'
 
-const API = 'http://localhost:8000'
+const API = 'https://digital-public-safety.onrender.com'
 
 const ROLE_LABELS = {
   SCAMMER_HUB: { label: 'Scammer Hub', color: '#f43f5e', badge: 'badge-red' },

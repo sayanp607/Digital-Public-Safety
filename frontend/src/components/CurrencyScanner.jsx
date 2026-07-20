@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
 
-const API = 'http://localhost:8000'
+const API = 'https://digital-public-safety.onrender.com'
 
 const CHECK_LABELS = {
   serial_number_format:  'Serial Number Format',

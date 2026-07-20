@@ -3,7 +3,7 @@ import axios from 'axios'
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
-const API = 'http://localhost:8000'
+const API = 'https://digital-public-safety.onrender.com'
 
 const RISK_COLORS = { HIGH: '#f43f5e', MEDIUM: '#f59e0b', LOW: '#22c55e' }
 

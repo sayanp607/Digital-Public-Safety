@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-const API = 'http://localhost:8000'
+const API = 'https://digital-public-safety.onrender.com'
 
 const SAMPLE_SCAM = `Hello, I am Deputy Commissioner Sharma from CBI. Your Aadhaar number has been linked to a money laundering case. A warrant has been issued for your arrest. You must not tell anyone about this call. To avoid arrest, you must transfer Rs 50,000 to a government safe account within 2 hours. This is your last chance to cooperate.`
 
