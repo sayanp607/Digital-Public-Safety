@@ -12,3 +12,5 @@ opencv-python-headless
 httpx
 pydantic
 pymongo
+motor
+soundfile
