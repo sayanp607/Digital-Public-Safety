@@ -4,11 +4,13 @@ import CitizenPortal from './portals/CitizenPortal'
 import BankPortal from './portals/BankPortal'
 import LEDashboard from './portals/LEDashboard'
 import TelecomPortal from './portals/TelecomPortal'
+import CursorTrail from './components/CursorTrail'
 import './index.css'
 
 export default function App() {
   return (
     <BrowserRouter>
+      <CursorTrail />
       <Routes>
         <Route path="/"         element={<Landing />} />
         <Route path="/citizen"  element={<CitizenPortal />} />
@@ -20,3 +22,4 @@ export default function App() {
     </BrowserRouter>
   )
 }
+
