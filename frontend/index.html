@@ -5,12 +5,66 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>frontend</title>
+  <title>SHIELD INDIA</title>
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+
+  <!-- Cursor Trail Animation (runs outside React for guaranteed rendering) -->
+  <script>
+    (function() {
+      var DOTS = 20;
+      var container = document.createElement('div');
+      container.id = 'cursor-trail-container';
+      container.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;overflow:hidden;';
+
+      var dots = [];
+      var positions = [];
+
+      for (var i = 0; i < DOTS; i++) {
+        var dot = document.createElement('div');
+        var size = Math.max(18 - i * 0.7, 4);
+        dot.style.cssText = 'position:absolute;border-radius:50%;pointer-events:none;will-change:transform;'
+          + 'width:' + size + 'px;height:' + size + 'px;'
+          + 'background:rgba(99,102,241,' + (1 - i / DOTS) + ');'
+          + 'box-shadow:0 0 ' + (12 - i * 0.5) + 'px rgba(99,102,241,' + (0.6 - i * 0.025) + ');'
+          + 'transform:translate(-100px,-100px);';
+        container.appendChild(dot);
+        dots.push(dot);
+        positions.push({ x: -100, y: -100 });
+      }
+
+      document.body.appendChild(container);
+
+      var mouseX = -100, mouseY = -100;
+
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animate() {
+        positions[0].x += (mouseX - positions[0].x) * 0.35;
+        positions[0].y += (mouseY - positions[0].y) * 0.35;
+
+        for (var i = 1; i < DOTS; i++) {
+          positions[i].x += (positions[i-1].x - positions[i].x) * 0.35;
+          positions[i].y += (positions[i-1].y - positions[i].y) * 0.35;
+        }
+
+        for (var j = 0; j < DOTS; j++) {
+          var sz = Math.max(18 - j * 0.7, 4);
+          dots[j].style.transform = 'translate(' + (positions[j].x - sz/2) + 'px,' + (positions[j].y - sz/2) + 'px)';
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    })();
+  </script>
 </body>
 
 </html>
