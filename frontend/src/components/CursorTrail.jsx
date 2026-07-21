@@ -4,9 +4,6 @@ export default function CursorTrail() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
-    // Hide on mobile devices for better performance
-    if (window.matchMedia('(max-width: 768px)').matches) return
-
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -61,7 +58,7 @@ export default function CursorTrail() {
         // Draw dot
         ctx.beginPath()
         // Radius decreases as it trails behind
-        const radius = Math.max((DOTS_COUNT - index) * 0.25, 0.5)
+        const radius = Math.max((DOTS_COUNT - index) * 0.4, 0.5)
         ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2)
         // Indigo color fading out
         ctx.fillStyle = `rgba(99, 102, 241, ${(DOTS_COUNT - index) / DOTS_COUNT})` 
