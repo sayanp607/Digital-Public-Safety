@@ -1,0 +1,38 @@
+# ── Node / Frontend ───────────────────────────────────────────────────────────
+node_modules/
+dist/
+.vite/
+*.local
+
+# ── Python / Backend ─────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+*.log
+
+# ── Environment / Secrets (NEVER commit these) ────────────────────────────────
+.env
+*.env
+!.env.example
+
+# ── OS files ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor ───────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Build outputs ────────────────────────────────────────────────────────────
+build/
+*.mo
+*.pot
