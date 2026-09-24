@@ -13,8 +13,8 @@ load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-# Default model for all text tasks (gemini-1.5-flash has 1,500 RPD free tier limit)
-model = genai.GenerativeModel("gemini-1.5-flash")
+# Default model for all text tasks
+model = genai.GenerativeModel("gemini-3.6-flash")
 
 
 def ask_gemini(prompt: str) -> str:
@@ -65,7 +65,7 @@ def analyze_image_for_deepfake(image_bytes: bytes, mime_type: str, filename: str
     """Uses Gemini Vision to analyze an image for AI deepfake artifacts."""
     try:
         # Reverting to gemini-3.5-flash since it has the free tier quota
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-3.6-flash')
         
         prompt = """
         You are an expert digital forensics analyst. I am giving you an image (which might be a screenshot of a Skype/WhatsApp video call).

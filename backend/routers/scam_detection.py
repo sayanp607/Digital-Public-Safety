@@ -106,14 +106,11 @@ async def send_sos_email(req: SOSEmailRequest):
     # Dynamically reload the .env file so we don't need to restart the server
     load_dotenv(override=True)
     
-    sender_email = os.getenv("SMTP_EMAIL")
-    sender_password = os.getenv("SMTP_PASSWORD")
+    sender_email = os.getenv("SMTP_EMAIL", "").strip()
+    sender_password = os.getenv("SMTP_PASSWORD", "").replace(" ", "").strip()
 
     if not sender_email or not sender_password:
-        return {"status": "skipped", "detail": "SMTP credentials not configured in .env"}
-
-    # Gmail app passwords shouldn't have spaces
-    sender_password = sender_password.replace(" ", "")
+        return {"status": "skipped", "detail": "SMTP_EMAIL or SMTP_PASSWORD is not configured in backend/.env"}
 
     msg_body = f"""🚨 AUTOMATED EMERGENCY SOS 🚨
 
@@ -132,14 +129,35 @@ SHIELD Digital Public Safety Platform
     msg["From"] = sender_email
     msg["To"] = req.email
 
+    sent = False
+    error_detail = ""
+
+    # Attempt 1: Port 587 (STARTTLS - universally allowed by ISPs & Firewalls)
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=5) as server:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
+            server.ehlo()
+            server.starttls()
+            server.ehlo()
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, req.email, msg.as_string())
-        return {"status": "sent"}
-    except Exception as e:
-        print(f"SMTP Error: {e} - Falling back to demo mode alert")
-        return {"status": "sent", "demo": True, "detail": f"Emergency SOS alert dispatched to {req.email} (Demo Mode)"}
+            sent = True
+    except Exception as e1:
+        error_detail = str(e1)
+        # Attempt 2: Port 465 (SSL fallback)
+        try:
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10) as server:
+                server.login(sender_email, sender_password)
+                server.sendmail(sender_email, req.email, msg.as_string())
+                sent = True
+        except Exception as e2:
+            error_detail = f"587 STARTTLS error: {e1} | 465 SSL error: {e2}"
+
+    if sent:
+        print(f"[SUCCESS] Real SOS Email sent to {req.email}")
+        return {"status": "sent", "detail": f"Real email delivered to {req.email}"}
+    else:
+        print(f"[ERROR] SMTP Failed: {error_detail}")
+        return {"status": "error", "detail": f"SMTP delivery failed: {error_detail}"}
 
 
 # ── FIR Draft Generator ───────────────────────────────────────────────────────

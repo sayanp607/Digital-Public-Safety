@@ -20,7 +20,7 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
-vision_model = genai.GenerativeModel("gemini-1.5-flash")
+vision_model = genai.GenerativeModel("gemini-3.6-flash")
 
 router = APIRouter()
 
