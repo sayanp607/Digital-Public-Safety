@@ -3,18 +3,32 @@ import json
 import uuid
 import datetime
 from fastapi import APIRouter, File, Form, UploadFile, HTTPException
+from dotenv import load_dotenv
+import motor.motor_asyncio
+
+load_dotenv(override=True)
 
 router = APIRouter()
 
 DB_FILE = "data/db.json"
 COMPLAINTS_DIR = "data/complaints/"
 
+# ─── MongoDB Async Database Setup ───
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+try:
+    mongo_client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI, serverSelectionTimeoutMS=2000)
+    db = mongo_client.shield_db
+    complaints_collection = db.complaints
+except Exception as e:
+    complaints_collection = None
+    print(f"[WARN] MongoDB Client init warning: {e}")
+
 # ─── Hybrid Mode: Real PyTorch on localhost, Demo on Render ───
 IS_PRODUCTION = os.getenv("RENDER", "").lower() == "true"
 
 verification_model = None
 
-# Ensure DB exists
+# Ensure DB directory & fallback file exists
 os.makedirs(COMPLAINTS_DIR, exist_ok=True)
 if not os.path.exists(DB_FILE):
     with open(DB_FILE, "w") as f:
@@ -42,7 +56,7 @@ async def submit_report(
     upi: str = Form(""),
     audio: UploadFile = File(...)
 ):
-    """Citizen Portal: Submits a new scam complaint to the DB"""
+    """Citizen Portal: Submits a new scam complaint to MongoDB & DB file"""
     try:
         if not audio.filename.lower().endswith(".wav"):
             raise HTTPException(status_code=400, detail="Only .wav audio files are supported by the AI Biometric Engine. Please convert your file to .wav and try again.")
@@ -58,7 +72,7 @@ async def submit_report(
         with open(filepath, "wb") as f:
             f.write(await audio.read())
             
-        # Save to JSON DB
+        # Record Object
         record = {
             "id": report_id,
             "timestamp": timestamp,
@@ -68,26 +82,46 @@ async def submit_report(
             "status": "pending_analysis"
         }
         
-        with open(DB_FILE, "r") as f:
-            db = json.load(f)
+        # 1. Save to MongoDB
+        try:
+            if complaints_collection is not None:
+                await complaints_collection.insert_one(dict(record))
+        except Exception as db_err:
+            print(f"[WARN] MongoDB insert fallback: {db_err}")
             
-        db.insert(0, record) # Add to top
-        
-        with open(DB_FILE, "w") as f:
-            json.dump(db, f, indent=2)
+        # 2. Dual-save to JSON DB for local persistence
+        try:
+            with open(DB_FILE, "r") as f:
+                db_data = json.load(f)
+            db_data.insert(0, record)
+            with open(DB_FILE, "w") as f:
+                json.dump(db_data, f, indent=2)
+        except Exception as json_err:
+            print(f"[WARN] File save error: {json_err}")
             
-        return {"success": True, "report_id": report_id}
+        return {"success": True, "report_id": report_id, "db": "MongoDB (shield_db.complaints)"}
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/list")
 async def get_reports():
-    """Police Dashboard: Fetches all citizen reports"""
+    """Police Dashboard: Fetches all citizen reports from MongoDB"""
     try:
+        # Try fetching from MongoDB first
+        if complaints_collection is not None:
+            try:
+                cursor = complaints_collection.find({}, {"_id": 0}).sort("timestamp", -1)
+                reports = await cursor.to_list(length=200)
+                if reports and len(reports) > 0:
+                    return reports
+            except Exception as mongo_err:
+                print(f"[WARN] MongoDB fetch fallback to file: {mongo_err}")
+
+        # Fallback to DB JSON file
         with open(DB_FILE, "r") as f:
-            db = json.load(f)
-        return db
+            db_data = json.load(f)
+        return db_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -98,12 +132,22 @@ async def verify_db_records(
 ):
     """Police Dashboard: Cross-references two database audio files"""
     try:
-        with open(DB_FILE, "r") as f:
-            db = json.load(f)
+        file1, file2 = None, None
+        if complaints_collection is not None:
+            try:
+                doc1 = await complaints_collection.find_one({"id": report_id_1})
+                doc2 = await complaints_collection.find_one({"id": report_id_2})
+                if doc1: file1 = doc1.get("audio_file")
+                if doc2: file2 = doc2.get("audio_file")
+            except Exception as e:
+                print(f"[WARN] MongoDB record query fallback: {e}")
+
+        if not file1 or not file2:
+            with open(DB_FILE, "r") as f:
+                db_data = json.load(f)
+            file1 = file1 or next((r["audio_file"] for r in db_data if r["id"] == report_id_1), None)
+            file2 = file2 or next((r["audio_file"] for r in db_data if r["id"] == report_id_2), None)
             
-        file1 = next((r["audio_file"] for r in db if r["id"] == report_id_1), None)
-        file2 = next((r["audio_file"] for r in db if r["id"] == report_id_2), None)
-        
         if not file1 or not file2:
             raise HTTPException(status_code=404, detail="One or both audio files not found in DB")
             
